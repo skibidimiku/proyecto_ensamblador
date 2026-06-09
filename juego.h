@@ -8,4 +8,19 @@
 void imprimirColor(const char *salida);
 int mostrarMenu();
 
+short generar_cantidad_monedas();
+
+int contar_monedas(
+    int *mapa,
+    int filas,
+    int columnas
+);
+
+void colocar_monedas(
+    int *mapa,
+    int filas,
+    int columnas,
+    int cantidad
+);
+
 #endif
