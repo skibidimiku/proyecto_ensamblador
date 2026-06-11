@@ -23,6 +23,8 @@ int intercambiar_celdas(
             int columna2
 );
 
+void abrirPuerta(int *mapa, int filas, int columnas);
+
 void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug);
 void imprimirColor(const char *salida);
 int mostrarMenu();

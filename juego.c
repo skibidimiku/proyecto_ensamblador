@@ -13,6 +13,7 @@ void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug){
     int filaIni = filaJug - 10;
     int colIni = colJug - 10;
 
+    
     if(filaIni < 0) filaIni = 0;
     if(colIni < 0) colIni = 0;
     if(filaIni > FILAS + VENTANA) filaIni = FILAS - VENTANA;
@@ -44,6 +45,12 @@ void imprimirColor(const char *salida)
             SetConsoleTextAttribute(consola, 14);
         }else if(c == 'P'){
             SetConsoleTextAttribute(consola, 12);
+        }else if(c == 177){
+            SetConsoleTextAttribute(consola, 3);
+        }else if(c == 'S'){
+            SetConsoleTextAttribute(consola, 4);
+        }else if(c == 'K'){
+            SetConsoleTextAttribute(consola, 6);
         }else{
             SetConsoleTextAttribute(consola, 7);
         }
@@ -71,6 +78,11 @@ int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion)
     if(resultado != 0){
         *filaJug = fila2;
         *colJug  = columna2;
+    }
+
+    if(resultado == 6){
+        printf("¡Has encontrado la llave! La puerta se ha abierto.\n");
+        abrirPuerta(mapa, FILAS, COLUMNAS);
     }
     
     return resultado;
@@ -128,6 +140,17 @@ void buscarJug(int *mapa, int filas, int columnas, int *fila, int *columna){
             if (mapa[i * columnas + j] == 3){
                 *fila = i;
                 *columna = j;
+                return;
+            }
+        }
+    }
+}
+
+void abrirPuerta(int *mapa, int filas, int columnas){
+    for (int i = 0; i < filas; i++){
+        for (int j = 0; j < columnas; j++){
+            if (mapa[i * columnas + j] == 4){
+                mapa[i * columnas + j] = 0;
                 return;
             }
         }

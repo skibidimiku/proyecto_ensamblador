@@ -20,6 +20,7 @@ int main()
 
     opcion = mostrarMenu();
 
+
     switch(opcion){
         case 1: mapaSeleccionado = &nivel1[0][0]; break;
 
@@ -33,6 +34,7 @@ int main()
             return 1;
     }
 
+
     if(opcion == 2 || opcion == 3){
         monedasGeneradas = generar_cantidad_monedas();
 
@@ -43,6 +45,8 @@ int main()
             monedasGeneradas
         );
 
+
+
         monedasEnMapa = contar_monedas(
             mapaSeleccionado,
             FILAS,
@@ -50,6 +54,7 @@ int main()
         );
 
     }
+
 
     printf("Paso 6\n");
 
@@ -60,6 +65,7 @@ int main()
         COLUMNAS
     );
 
+    
     system("cls");
 
     printf("====================================\n");

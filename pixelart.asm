@@ -43,6 +43,15 @@ generar_pixel_art:
     cmp eax, 3
     je .jugador
 
+    cmp eax, 4
+    je .puerta
+
+    cmp eax, 5
+    je .Salida
+
+    cmp eax, 6
+    je .Llave
+
     mov al, '.'
     jmp .escribir
 
@@ -57,6 +66,16 @@ generar_pixel_art:
 .jugador:
     mov al, 'P'
     jmp .escribir
+.puerta:
+    mov al, 177
+    jmp .escribir
+
+.Salida:
+    mov al, 'S'
+    jmp .escribir 
+
+.Llave:
+    mov al, 'K'
 
 .escribir:
     mov [rdx], al
@@ -161,6 +180,15 @@ intercambiar_celdas:
     cmp eax, 2
     je .moneda
 
+    cmp eax, 4
+    je .pared
+
+    cmp eax, 5
+    je .salida
+
+    cmp eax, 6
+    je .llave
+
     jmp .intercambiar
  
 .moneda:
@@ -172,6 +200,17 @@ intercambiar_celdas:
     mov [r11], eax
 
     mov eax, 2
+    ret
+
+.llave:
+    mov dword [r11], 0
+    mov eax, [r10]
+    mov r8d, [r11]
+
+    mov [r10], r8d
+    mov [r11], eax
+
+    mov eax, 6
     ret
 
 .intercambiar:
@@ -186,4 +225,8 @@ intercambiar_celdas:
 
 .pared:
     mov eax, 0
+    ret
+
+.salida:
+    mov eax, 5
     ret
