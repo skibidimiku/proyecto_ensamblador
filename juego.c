@@ -13,7 +13,6 @@ void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug){
     int filaIni = filaJug - 10;
     int colIni = colJug - 10;
 
-    
     if(filaIni < 0) filaIni = 0;
     if(colIni < 0) colIni = 0;
     if(filaIni > FILAS + VENTANA) filaIni = FILAS - VENTANA;
@@ -29,8 +28,7 @@ void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug){
     imprimirColor(salida);
 }
 
-void imprimirColor(const char *salida)
-{
+void imprimirColor(const char *salida){
     HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
 
     for(int i = 0; salida[i] != '\0'; i++)
@@ -61,7 +59,7 @@ void imprimirColor(const char *salida)
     SetConsoleTextAttribute(consola, 7);
 }
 
-int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion){
+int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion, int *mondJug, int *pasos){
     int fila2 = *filaJug;
     int columna2 = *colJug;
 
@@ -78,7 +76,13 @@ int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion)
     if(resultado != 0){
         *filaJug = fila2;
         *colJug  = columna2;
+        (*pasos)++;
     }
+
+    if(resultado == 2){
+        (*mondJug)++;
+    }
+
 
     if(resultado == 6){
         printf("¡Has encontrado la llave! La puerta se ha abierto.\n");
@@ -110,8 +114,7 @@ void colocar_monedas(
     int filas,
     int columnas,
     int cantidad
-)
-{
+){
     static int inicializado = 0;
 
     if(!inicializado)
@@ -126,8 +129,7 @@ void colocar_monedas(
     {
         int pos = rand() % total;
 
-        if(mapa[pos] == 0)
-        {
+        if(mapa[pos] == 0){
             mapa[pos] = 2;
             cantidad--;
         }
@@ -150,7 +152,7 @@ void abrirPuerta(int *mapa, int filas, int columnas){
     for (int i = 0; i < filas; i++){
         for (int j = 0; j < columnas; j++){
             if (mapa[i * columnas + j] == 4){
-                mapa[i * columnas + j] = 0;
+                mapa[i * columnas + j] = 7;
                 return;
             }
         }

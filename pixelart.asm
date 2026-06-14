@@ -52,6 +52,9 @@ generar_pixel_art:
     cmp eax, 6
     je .Llave
 
+    cmp eax, 7
+    je .puerta
+
     mov al, '.'
     jmp .escribir
 
@@ -66,6 +69,7 @@ generar_pixel_art:
 .jugador:
     mov al, 'P'
     jmp .escribir
+
 .puerta:
     mov al, 177
     jmp .escribir
@@ -98,8 +102,6 @@ generar_pixel_art:
 .salida_vacia:
     mov byte [rdx], 0
     ret
-
-
 
 NextLehmer16:
 
@@ -171,7 +173,6 @@ intercambiar_celdas:
     movsxd rax, eax
     lea r11, [rcx + rax * 4]
 
-    ;ver si es pared o moneda
     mov eax, [r11]
 
     cmp eax, 1
@@ -179,7 +180,7 @@ intercambiar_celdas:
 
     cmp eax, 2
     je .moneda
-
+    
     cmp eax, 4
     je .pared
 
@@ -188,6 +189,9 @@ intercambiar_celdas:
 
     cmp eax, 6
     je .llave
+
+    cmp eax, 7
+    je .puerta_abierta
 
     jmp .intercambiar
  
@@ -212,6 +216,9 @@ intercambiar_celdas:
 
     mov eax, 6
     ret
+
+.puerta_abierta:
+    mov dword [r11], 0
 
 .intercambiar:
     ;intercambiar

@@ -28,7 +28,7 @@ void abrirPuerta(int *mapa, int filas, int columnas);
 void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug);
 void imprimirColor(const char *salida);
 int mostrarMenu();
-int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion);
+int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion, int *mondJug, int *pasos);
 
 short generar_cantidad_monedas();
 
