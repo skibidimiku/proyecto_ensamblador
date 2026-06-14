@@ -4,6 +4,9 @@
 #define FILAS 60
 #define COLUMNAS 60
 #define VENTANA 20
+#define Pasos1 780
+#define Pasos2 200 //161
+#define Pasos3 300 //261
 #define TAM_SALIDA (FILAS * (COLUMNAS + 1) + 1)
 
 
@@ -23,18 +26,13 @@ int intercambiar_celdas(
             int columna2
 );
 
+void abrirPuerta(int *mapa, int filas, int columnas);
+
 void imprimirVentana(int *mapaSeleccionado, int filaJug, int colJug);
 void imprimirColor(const char *salida);
-int mostrarMenu();
-int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion);
+int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion, int *mondJug, int *pasos);
 
 short generar_cantidad_monedas();
-
-int contar_monedas(
-    int *mapa,
-    int filas,
-    int columnas
-);
 
 void colocar_monedas(
     int *mapa,
@@ -44,5 +42,14 @@ void colocar_monedas(
 );
 
 void buscarJug(int *mapa, int filas, int columnas, int *fila, int *col);
+void preparar_contar_cantidad_celda(int *mapaSeleccionado);
+int contar_cantidad_celda(int *mapa, int filas, int columnas, int valor);
+void preparar_buscar_objeto(int *mapa);
+int buscar_objeto(int *mapa, int columnas, int fila, int columna, int valor);
+int contar_celdas_vacias(int *mapa, int filas, int columnas);
+int calcular_puntaje(int nivel, int pasos, int monedas);
+void pantallaInicio();
+void pantallaFinal(int puntaje, int monedas, int pasos, int monedaJuego, int pasosJuego);
+
 
 #endif

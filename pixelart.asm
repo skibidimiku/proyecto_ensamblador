@@ -4,8 +4,11 @@ default rel
 global generar_pixel_art
 global NextLehmer16
 global generar_cantidad_monedas
-global contar_monedas
 global intercambiar_celdas
+global contar_cantidad_celda
+global buscar_objeto
+global contar_celdas_vacias
+global calcular_puntaje
 
 section .data
 
@@ -43,6 +46,18 @@ generar_pixel_art:
     cmp eax, 3
     je .jugador
 
+    cmp eax, 4
+    je .puerta
+
+    cmp eax, 5
+    je .Salida
+
+    cmp eax, 6
+    je .Llave
+
+    cmp eax, 7
+    je .puerta
+
     mov al, '.'
     jmp .escribir
 
@@ -57,6 +72,17 @@ generar_pixel_art:
 .jugador:
     mov al, 'P'
     jmp .escribir
+
+.puerta:
+    mov al, 177
+    jmp .escribir
+
+.Salida:
+    mov al, 'S'
+    jmp .escribir 
+
+.Llave:
+    mov al, 'K'
 
 .escribir:
     mov [rdx], al
@@ -79,8 +105,6 @@ generar_pixel_art:
 .salida_vacia:
     mov byte [rdx], 0
     ret
-
-
 
 NextLehmer16:
 
@@ -109,7 +133,7 @@ generar_cantidad_monedas:
 
 
 
-contar_monedas:
+contar_cantidad_celda:
 
     mov eax, edx        
     imul eax, r8d       
@@ -119,7 +143,7 @@ contar_monedas:
 
 .contar_loop:
 
-    cmp dword [rcx], 2
+    cmp dword [rcx], r9d
     jne .siguiente
 
     inc eax
@@ -152,7 +176,6 @@ intercambiar_celdas:
     movsxd rax, eax
     lea r11, [rcx + rax * 4]
 
-    ;ver si es pared o moneda
     mov eax, [r11]
 
     cmp eax, 1
@@ -160,6 +183,18 @@ intercambiar_celdas:
 
     cmp eax, 2
     je .moneda
+    
+    cmp eax, 4
+    je .pared
+
+    cmp eax, 5
+    je .salida
+
+    cmp eax, 6
+    je .llave
+
+    cmp eax, 7
+    je .puerta_abierta
 
     jmp .intercambiar
  
@@ -174,6 +209,20 @@ intercambiar_celdas:
     mov eax, 2
     ret
 
+.llave:
+    mov dword [r11], 0
+    mov eax, [r10]
+    mov r8d, [r11]
+
+    mov [r10], r8d
+    mov [r11], eax
+
+    mov eax, 6
+    ret
+
+.puerta_abierta:
+    mov dword [r11], 0
+
 .intercambiar:
     ;intercambiar
     mov eax, [r10]
@@ -186,4 +235,98 @@ intercambiar_celdas:
 
 .pared:
     mov eax, 0
+    ret
+
+.salida:
+    mov eax, 5
+    ret
+
+buscar_objeto:
+    mov eax, r8d
+    imul eax, edx
+    add eax, r9d
+
+    movsxd rax, eax
+    lea r10, [rcx + rax * 4]
+
+    mov r11d, [rsp + 40]
+
+    mov eax, [r10]
+    cmp eax, r11d
+    jne .no_esta
+
+    mov eax, 1
+    ret
+
+.no_esta:
+    mov eax, 0
+    ret
+
+contar_celdas_vacias:
+    mov eax, edx        
+    imul eax, r8d       
+
+    mov r10d, eax
+    xor eax, eax
+
+.contar_loop:
+
+    cmp dword [rcx], 0
+    jne .siguiente
+
+    inc eax
+
+.siguiente:
+
+    add rcx, 4
+    dec r10d
+    jnz .contar_loop
+
+    ret
+
+calcular_puntaje:
+    xor eax, eax
+
+    cmp ecx, 1
+    je .nivel1
+
+    cmp ecx, 2
+    je .nivel2
+
+    cmp ecx, 3
+    je .nivel3
+
+.nivel1:
+    mov r9d, 780
+    jmp .calcular
+
+.nivel2:
+    mov r9d, 163
+    jmp .calcular
+
+.nivel3:
+    mov r9d, 261
+    jmp .calcular
+
+.calcular:
+    mov eax, 300
+
+    sub edx, r9d
+    cmp edx, 0
+    jl .no_castigable
+
+    sub eax, edx
+    cmp ecx, 1
+    je .fin
+
+.no_castigable:
+    mov ecx, r8d
+    imul ecx, 10
+    add eax, ecx
+
+    cmp eax, 0
+    jge .fin
+    xor eax, eax
+
+.fin:
     ret
