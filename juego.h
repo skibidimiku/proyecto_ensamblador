@@ -6,7 +6,7 @@
 #define VENTANA 20
 #define Pasos1 780
 #define Pasos2 200 //161
-#define Pasos3 300 //261
+#define Pasos3 300 //251
 #define TAM_SALIDA (FILAS * (COLUMNAS + 1) + 1)
 
 

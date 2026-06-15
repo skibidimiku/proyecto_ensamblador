@@ -88,7 +88,6 @@ int moverJug(int *mapa, int columnas, int *filaJug, int *colJug, char direccion,
 
 
     if(resultado == 6){
-        printf("¡Has encontrado la llave! La puerta se ha abierto.\n");
         abrirPuerta(mapa, FILAS, COLUMNAS);
     }
     
@@ -103,8 +102,7 @@ void colocar_monedas(
 ){
     static int inicializado = 0;
 
-    if(!inicializado)
-    {
+    if(!inicializado){
         srand((unsigned)time(NULL));
         inicializado = 1;
     }

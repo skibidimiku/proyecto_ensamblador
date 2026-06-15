@@ -301,11 +301,11 @@ calcular_puntaje:
     jmp .calcular
 
 .nivel2:
-    mov r9d, 163
+    mov r9d, 200
     jmp .calcular
 
 .nivel3:
-    mov r9d, 261
+    mov r9d, 300
     jmp .calcular
 
 .calcular:
